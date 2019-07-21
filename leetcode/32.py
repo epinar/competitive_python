@@ -108,7 +108,6 @@ class Solution:
 					stack.append(i)
 		return max_count
 
-
 	def longestValidParentheses_3a(self, s: str) -> int:
 		'''
 		A natural dp approach to solve this problem. We keep the longest valid substring until each index we see.
@@ -134,7 +133,6 @@ class Solution:
 
 				max_count = max(max_count, dp[i])
 		return max_count
-
 
 	def longestValidParentheses_3b(self, s: str) -> int:
 		'''
@@ -166,6 +164,34 @@ class Solution:
 
 		return max_count
 
+	def longestValidParentheses_4(self, s: str) -> int:
+
+		l, r = 0, 0
+		max_count = 0
+		for i, x in enumerate(s):
+			if x == '(':
+				l += 1
+			else:
+				r += 1
+			if l == r:
+				max_count = max(max_count, l+r)
+			elif r >= l:
+				r, l = 0, 0
+
+		r, l = 0, 0
+		for i, x in enumerate(reversed(s)):
+			if x == '(':
+				l += 1
+			else:
+				r += 1
+			if l == r:
+				max_count = max(max_count, l+r)
+			elif l >= r:
+				r, l = 0, 0
+
+		return max_count
+
+
 	def isValid(self, s: str) -> bool:
 	# Returns true if it is valid
 		num_opens = 0
@@ -182,7 +208,6 @@ class Solution:
 			return True
 		else:
 			return False
-
 
 	def isValid2(self, s: str) -> bool:
 		stack = []
@@ -237,6 +262,10 @@ class Testing(unittest.TestCase):
 		f5 = sol.longestValidParentheses_3b
 		for i, x in enumerate(cases):
 			self.assertEqual(f5(x[0]), x[1])
+
+		f6 = sol.longestValidParentheses_4
+		for i, x in enumerate(cases):
+			self.assertEqual(f6(x[0]), x[1])
 
 
 if __name__ == '__main__':
