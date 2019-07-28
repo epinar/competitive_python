@@ -277,4 +277,5 @@ if __name__ == '__main__':
 	s = ")("
 	sol = Solution()
 
+	print("hello")
 	unittest.main()
