@@ -35,6 +35,10 @@ class Solution:
             self._numReverse(k, nums, n - 1)
 
     def _numReverse(self, start, nums, end):
+        """
+        Reverses an array from start to end. It is also possible
+        to use [::-1] function of python.
+        """
         while start < end:
             nums[start], nums[end] = nums[end], nums[start]
             start += 1
@@ -50,5 +54,6 @@ if __name__ == '__main__':
     arr = [-1, -100, 3, 99]
     arr = [1, 2, 3, 4]
     arr = [1, 2, 3, 4, 5, 6]
+    print(arr[::-1])
     sol.rotate3(arr, 1)
     print(arr)
