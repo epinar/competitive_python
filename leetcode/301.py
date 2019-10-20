@@ -101,15 +101,14 @@ def removeInvalidParentheses(s):
 
 def removeInvalidParentheses2(s):
 
-    # Build up all possible strings at each step.
-    # Once there is a ( or ), either use it in the string and increase
-    # left or right, or do not use it and decrease left_rem or right_rem.
-    # Once the indice reaches end of the string, add string if it is valid.
+
     def recurse(i, left, right, curr, left_rem):
 
         if ''.join(curr) in res:
             return
-        if left+right>len(s)-i:
+        if left+right > len(s)-i:
+            return
+        if i > len(s):
             return
 
         if i == len(s):
@@ -117,19 +116,31 @@ def removeInvalidParentheses2(s):
                 res.add("".join(curr))
             return
 
-        if s[i]== "(" and left >0:
-            recurse(s, i+1, left-1, right, curr, left_rem)
-        elif s[i] == ")" and right>0:
-            recurse(s, i+1, left, right-1, curr, left_rem)
+        if s[i] == "(" and left > 0:
+            recurse(i+1, left-1, right, curr, left_rem)
+        elif s[i] == ")" and right > 0:
+            recurse(i+1, left, right-1, curr, left_rem)
 
         curr.append(s[i])
         if s[i] != '(' and s[i] != ')':
             recurse(i+1, left, right, curr, left_rem)
         elif s[i] == "(":
-            recurse(i, left, right, curr, left_rem+1)
+            recurse(i+1, left, right, curr, left_rem+1)
         elif s[i] == ")" and left_rem >0:
             recurse(i+1, left, right, curr, left_rem-1)
         curr.pop()
+
+    res = set()
+    left, right = 0, 0
+    # Count the number of unmatching left and right parentheses
+    for i, c in enumerate(s):
+        if c == "(":
+            left += 1
+        elif c == ")":
+            if left > 0:
+                left -= 1
+            else:
+                right += 1
 
     recurse(0, left, right, [], 0)
     return list(res)
@@ -138,6 +149,6 @@ def removeInvalidParentheses2(s):
 
 if __name__ == '__main__':
     inp = "((i)"
-    print(removeInvalidParentheses(inp))
+    print(removeInvalidParentheses2(inp))
     #print(getSolution("(()()))", ")"))
     #print(findSolutions(["(()()))"], ")"))
